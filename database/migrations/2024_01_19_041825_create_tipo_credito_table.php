@@ -11,17 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('usuarios', function (Blueprint $table) {
+        Schema::create('tipo_credito', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('rol_id')->references('id')->on('roles'); 
-            $table->foreignId('tipo_documento_id')->references('id')->on('opcion_lista_maestra'); 
             $table->string('nombre');
-            $table->string('apellido');
-            $table->string('usuario')->unique();
-            $table->string('contrasenia');
-            $table->string('numero_documento')->unique();
+            $table->double('porcentaje_interes');     
             $table->integer('activo');
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -31,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('tipo_credito');
     }
 };
