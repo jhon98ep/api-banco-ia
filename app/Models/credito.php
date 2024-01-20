@@ -9,6 +9,8 @@ class Credito extends Model
 {
     use HasFactory;
 
+    protected $table = "credito";
+
     protected $fillable = [
         'numero_cuenta',
         'cliente_solicitante_id',
