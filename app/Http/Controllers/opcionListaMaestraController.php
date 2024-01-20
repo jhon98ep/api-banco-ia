@@ -15,7 +15,7 @@ class opcionListaMaestraController extends Controller
         $opcionlistaMaestra = opcionListaMaestra::find($lista_maestra_id);
         return response()->json([
             'estado' => true,
-            'opciones' => $opcionlistaMaestra
+            'datos' => $opcionlistaMaestra
         ]);
     }
 

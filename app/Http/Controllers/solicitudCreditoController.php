@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\solicitudCredito;
 use Illuminate\Http\Request;
 
 class solicitudCreditoController extends Controller
@@ -11,7 +12,11 @@ class solicitudCreditoController extends Controller
      */
     public function index()
     {
-        //
+        $solicitudCredito = solicitudCredito::all();
+        return response()->json([
+            'estado' => true,
+            'datos' => $solicitudCredito
+        ]);
     }
 
     /**
@@ -19,7 +24,13 @@ class solicitudCreditoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $solicitudCredito = solicitudCredito::create($request->all());
+
+        return response()->json([
+            'estado' => true,
+            'mensaje' => "solicitud de credito creada correctamente!",
+            'solicitud' => $solicitudCredito
+        ], 200);
     }
 
     /**
@@ -27,7 +38,11 @@ class solicitudCreditoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $solicitudCredito = solicitudCredito::find($id);
+        return response()->json([
+            'estado' => true,
+            'solicitud' => $solicitudCredito
+        ]);
     }
 
     /**

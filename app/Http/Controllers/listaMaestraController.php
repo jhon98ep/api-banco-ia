@@ -15,7 +15,7 @@ class listaMaestraController extends Controller
         $listaMaestra = listaMaestra::all();
         return response()->json([
             'estado' => true,
-            'listas' => $listaMaestra
+            'datos' => $listaMaestra
         ]);
     }
 

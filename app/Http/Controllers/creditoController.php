@@ -15,7 +15,7 @@ class creditoController extends Controller
         $creditos = credito::all();
         return response()->json([
             'estado' => true,
-            'creditos' => $creditos
+            'datos' => $creditos
         ]);
     }
 

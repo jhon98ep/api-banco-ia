@@ -2,45 +2,45 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\tipoCredito;
 use Illuminate\Http\Request;
 
 class tipoCreditoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $tipoCredito = tipoCredito::all();
+        return response()->json([
+            'estado' => true,
+            'datos' => $tipoCredito
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $tipoCredito = tipoCredito::create($request->all());
+
+        return response()->json([
+            'estado' => true,
+            'mensaje' => "tipo de credito creada correctamente!",
+            'tipo_credito' => $tipoCredito
+        ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $solicitudCredito = tipoCredito::find($id);
+        return response()->json([
+            'estado' => true,
+            'tipo_credito' => $solicitudCredito
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //
