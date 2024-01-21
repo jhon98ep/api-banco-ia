@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\listaMaestra;
+use App\Models\ListaMaestra;
 use Illuminate\Http\Request;
 
 class listaMaestraController extends Controller
@@ -12,7 +12,7 @@ class listaMaestraController extends Controller
      */
     public function index()
     {
-        $listaMaestra = listaMaestra::all();
+        $listaMaestra = ListaMaestra::all();
         return response()->json([
             'estado' => true,
             'datos' => $listaMaestra
@@ -24,7 +24,7 @@ class listaMaestraController extends Controller
      */
     public function store(Request $request)
     {
-        $listaMaestra = listaMaestra::create($request->all());
+        $listaMaestra = ListaMaestra::create($request->all());
 
         return response()->json([
             'estado' => true,
@@ -38,7 +38,7 @@ class listaMaestraController extends Controller
      */
     public function show(string $id)
     {
-        $listaMaestra = listaMaestra::find($id);
+        $listaMaestra = ListaMaestra::find($id);
         return response()->json([
             'estado' => true,
             'lista' => $listaMaestra

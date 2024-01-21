@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\usuario;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 
 class usuariosController extends Controller
 {
     public function index()
     {
-        $usuarios = usuario::all();
+        $usuarios = Usuario::all();
         return response()->json([
             'estado' => true,
             'datos' => $usuarios
@@ -18,36 +18,25 @@ class usuariosController extends Controller
 
     public function store(Request $request)
     {
-        $usuario = usuario::create($request->all());
+        $usuario = Usuario::create($request->all());
 
         return response()->json([
             'estado' => true,
-            'mensaje' => "solicitude de credito creada correctamente!",
+            'mensaje' => "usuario creado correctamente!",
             'usuario' => $usuario
         ], 200);
     }
 
     public function show(string $id)
     {
-        $usuario = usuario::find($id);
+        $usuario = Usuario::find($id);
         return response()->json([
             'estado' => true,
             'usuario' => $usuario
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
     {
         //
     }

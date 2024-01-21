@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\roles;
+use App\Models\Rol;
 
 class rolesController extends Controller
 {
@@ -12,7 +12,7 @@ class rolesController extends Controller
      */
     public function index()
     {
-        $roles = roles::all();
+        $roles = Rol::all();
         return response()->json([
             'estado' => true,
             'datos' => $roles
@@ -24,7 +24,7 @@ class rolesController extends Controller
      */
     public function store(Request $request)
     {
-        $rol = roles::create($request->all());
+        $rol = Rol::create($request->all());
 
         return response()->json([
             'estado' => true,
@@ -38,7 +38,7 @@ class rolesController extends Controller
      */
     public function show(string $id)
     {
-        $rol = roles::find($id);
+        $rol = Rol::find($id);
         return response()->json([
             'estado' => true,
             'rol' => $rol
