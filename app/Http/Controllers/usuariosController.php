@@ -13,10 +13,24 @@ class usuariosController extends Controller
     {
         $query = Usuario::query();
 
-        if ($request->has('gerente')) {
+        if ($request->has('rol_id')) {
+            $query->where('rol_id', $request->input('rol_id'));
+        }
+
+        if ($request->has('nombre') && $request->has('gerente')) {
+            $query->where('rol_id', 3)
+                ->orWhere('nombre', 'like', '%' . $request->input('nombre') . '%')
+                ->orWhere('usuario', 'like', '%' . $request->input('nombre') . '%')
+                ->orWhere('numero_documento', 'like', '%' . $request->input('nombre') . '%');
+        }else if($request->has('nombre')) {
+            $query->orWhere('nombre', 'like', '%' . $request->input('nombre') . '%')
+                ->orWhere('usuario', 'like', '%' . $request->input('nombre') . '%')
+                ->orWhere('numero_documento', 'like', '%' . $request->input('nombre') . '%');
+        }else if ($request->has('gerente')) {
             $ids = [3];
             $query->whereIn('rol_id', $ids);
         }
+        
 
         $pagina = $request->query('pagina');
         $registrosPorPagina = 10;

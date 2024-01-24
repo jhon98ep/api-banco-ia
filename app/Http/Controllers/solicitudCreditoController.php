@@ -28,6 +28,10 @@ class solicitudCreditoController extends Controller
             $query->where('estado_id', $request->input('estado_id'));
         }
 
+        if ($request->has('tipo_credito_id')) {
+            $query->where('tipo_credito_id', $request->input('tipo_credito_id'));
+        }
+
         $pagina = $request->query('pagina');
         $registrosPorPagina = 10;
 
