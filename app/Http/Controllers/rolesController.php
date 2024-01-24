@@ -7,21 +7,29 @@ use App\Models\Rol;
 
 class rolesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Rol::all();
+        $query = Rol::query();
+    
+        if ($request->has('gerente')) {
+            $ids = [3];
+            $query->whereIn('id', $ids);
+        }
+
+        $pagina = $request->query('pagina');
+
+        $registrosPorPagina = 10;
+        $datosPaginados =$query->paginate($registrosPorPagina,  ['*'], 'page', $pagina);
+        $datos = $query->get();
         return response()->json([
             'estado' => true,
-            'datos' => $roles
+            'total_registros' => $datosPaginados->total(),
+            'pagina_actual' => $pagina == -1 ? 1 : $datosPaginados->currentPage(),
+            'total_paginas' => $pagina == -1 ? 1 : $datosPaginados->lastPage(),
+            'datos' => $pagina == -1 ? $datos : $datosPaginados->items(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $rol = Rol::create($request->all());
@@ -33,9 +41,6 @@ class rolesController extends Controller
         ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $rol = Rol::find($id);
@@ -45,18 +50,7 @@ class rolesController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
     {
         //
     }

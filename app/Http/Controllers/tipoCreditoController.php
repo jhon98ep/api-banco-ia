@@ -7,12 +7,18 @@ use Illuminate\Http\Request;
 
 class tipoCreditoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tipoCredito = tipoCredito::all();
+        $pagina = $request->query('pagina');
+        $registrosPorPagina = 10;
+        $datosPaginados = tipoCredito::paginate($registrosPorPagina,  ['*'], 'page', $pagina);
+        $datos = tipoCredito::all();
         return response()->json([
             'estado' => true,
-            'datos' => $tipoCredito
+            'total_registros' => $datosPaginados->total(),
+            'pagina_actual' => $pagina == -1 ? 1 : $datosPaginados->currentPage(),
+            'total_paginas' => $pagina == -1 ? 1 : $datosPaginados->lastPage(),
+            'datos' => $pagina == -1 ? $datos : $datosPaginados->items(),
         ]);
     }
 

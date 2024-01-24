@@ -7,21 +7,28 @@ use Illuminate\Http\Request;
 
 class creditoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $creditos = credito::all();
+        $query = credito::query();
+        
+        if ($request->has('cliente_solicitante_id')) {
+            $query->where('cliente_solicitante_id', $request->input('cliente_solicitante_id'));
+        }
+
+        $pagina = $request->query('pagina');
+        $registrosPorPagina = 10;
+
+        $datosPaginados = $query->with(['cliente', 'aprobador', 'cuotas', 'tipo_credito'])->paginate($registrosPorPagina,  ['*'], 'page', $pagina);
+        $datos = $query->with(['cliente', 'aprobador', 'cuotas', 'tipo_credito'])->get();
         return response()->json([
             'estado' => true,
-            'datos' => $creditos
+            'total_registros' => $datosPaginados->total(),
+            'pagina_actual' => $pagina == -1 ? 1 : $datosPaginados->currentPage(),
+            'total_paginas' => $pagina == -1 ? 1 : $datosPaginados->lastPage(),
+            'datos' => $pagina == -1 ? $datos : $datosPaginados->items(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $credito = credito::create($request->all());
@@ -33,9 +40,6 @@ class creditoController extends Controller
         ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $credito = credito::find($id);
@@ -45,18 +49,7 @@ class creditoController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
     {
         //
     }

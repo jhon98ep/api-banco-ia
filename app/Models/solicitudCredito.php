@@ -21,4 +21,24 @@ class SolicitudCredito extends Model
         'fecha_solicitud',
         'observaciones',
     ];
+
+    public function cliente()
+    {
+        return $this->belongsTo(Usuario::class, 'cliente_solicitante_id');
+    }
+
+    public function cuotas()
+    {
+        return $this->belongsTo(OpcionListaMaestra::class, 'cuotas_solicitadas_id');
+    }
+
+    public function estado()
+    {
+        return $this->belongsTo(OpcionListaMaestra::class, 'estado_id');
+    }
+
+    public function tipo_credito()
+    {
+        return $this->belongsTo(TipoCredito::class, 'tipo_credito_id');
+    }
 }

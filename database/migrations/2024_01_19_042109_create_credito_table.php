@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('credito', function (Blueprint $table) {
             $table->id();
-            $table->integer('numero_cuenta')->unique();
+            $table->string('numero_cuenta')->unique();
             $table->foreignId('cliente_solicitante_id')->references('id')->on('usuarios'); 
             $table->foreignId('usuario_aprobador_id')->references('id')->on('usuarios'); 
             $table->foreignId('cuotas_id')->references('id')->on('opcion_lista_maestra'); 
             $table->foreignId('tipo_credito_id')->references('id')->on('tipo_credito'); 
-            $table->integer('valor');
-            $table->integer('valor_cuota');
+            $table->string('valor');
+            $table->string('valor_cuota');
             $table->dateTime('fecha_aprobacion');
             $table->timestamps();
         });

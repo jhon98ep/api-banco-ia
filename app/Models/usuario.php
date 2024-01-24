@@ -34,4 +34,14 @@ class Usuario extends Authenticatable
     protected $casts = [
         'contrasenia' => 'hashed',
     ];
+
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class, 'rol_id');
+    }
+
+    public function tipo_documento()
+    {
+        return $this->belongsTo(OpcionListaMaestra::class, 'tipo_documento_id');
+    }
 }

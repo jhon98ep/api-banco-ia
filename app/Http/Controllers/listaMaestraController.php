@@ -7,21 +7,21 @@ use Illuminate\Http\Request;
 
 class listaMaestraController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $listaMaestra = ListaMaestra::all();
+        $pagina = $request->query('pagina');
+        $registrosPorPagina = 10;
+        $datosPaginados = ListaMaestra::paginate($registrosPorPagina,  ['*'], 'page', $pagina);
+        $datos = ListaMaestra::all();
         return response()->json([
             'estado' => true,
-            'datos' => $listaMaestra
+            'total_registros' => $datosPaginados->total(),
+            'pagina_actual' => $pagina == -1 ? 1 : $datosPaginados->currentPage(),
+            'total_paginas' => $pagina == -1 ? 1 : $datosPaginados->lastPage(),
+            'datos' => $pagina == -1 ? $datos : $datosPaginados->items(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $listaMaestra = ListaMaestra::create($request->all());
@@ -33,9 +33,6 @@ class listaMaestraController extends Controller
         ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $listaMaestra = ListaMaestra::find($id);
@@ -45,19 +42,13 @@ class listaMaestraController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function obtenerListaPorNombre(string $nombre)
     {
-        //
+        $listaMaestra = ListaMaestra::where('nombre', $nombre)->first();
+        return response()->json([
+            'estado' => true,
+            'lista' => $listaMaestra
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

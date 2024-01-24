@@ -7,9 +7,19 @@ use Illuminate\Http\Request;
 
 class opcionListaMaestraController extends Controller
 {
-    public function index(string $lista_maestra_id)
+    public function index(string $lista_maestra_id, Request $request)
     {
-        $opcionlistaMaestra = OpcionListaMaestra::where('lista_maestra_id', $lista_maestra_id)->get();
+        $query = OpcionListaMaestra::query();
+    
+        if ($request->has('asesor')) {
+            $ids = [2, 3];
+            $query->whereIn('id', $ids);
+        }
+        if ($request->has('gerente')) {
+            $ids = [2, 4];
+            $query->whereIn('id', $ids);
+        }
+        $opcionlistaMaestra = $query->where('lista_maestra_id', $lista_maestra_id)->get();
         return response()->json([
             'estado' => true,
             'datos' => $opcionlistaMaestra
@@ -37,11 +47,6 @@ class opcionListaMaestraController extends Controller
     }
 
     public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
     {
         //
     }
